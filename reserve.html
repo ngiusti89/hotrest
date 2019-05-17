@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <title>Hot Express</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron text-center">
+        <h1>    <span class="fa fa-fire"></span> Hot Restaurant - It's on fire...</h1>
+          <hr>
+          <br>
+          <h3><span id="numTables"></span> tables! Book now before they burn up.</h3>
+            <br>
+    <a href="./tables"><button class="btn btn-primary btn-lg"><span class="fa fa-list"></span> View All Tables</button></a>
+
+    <a href="./"><button class="btn btn-danger btn-lg"><span class="fa fa-home"></span></button></a>
+
+        </div>
+
+
+
+
+<div class="card">
+        <div class="card-header">
+          Table Reservation
+        </div>
+        <div class="card-body">
+          <form role="form">
+            <div class="form-group">
+              <label for="reserve-name">Name</label>
+              <input type="text" class="form-control" id="reserve-name">
+            </div>
+            <div class="form-group">
+              <label for="reserve-phone">Phone Number</label>
+              <input type="text" class="form-control" id="reserve-phone">
+            </div>
+            <div class="form-group">
+              <label for="reserve-email">Email</label>
+              <input type="text" class="form-control" id="reserve-email">
+            </div>
+            <div class="form-group">
+              <label for="reserve-unique-id">Secret</label>
+              <input type="text" class="form-control" id="reserve-unique-id">
+            </div>
+            <button type="submit" class="btn btn-primary submit">Submit</button>
+          </form>
+        </div>
+      </div>
+
+      </div>
+
+      <script>
+
+            $( document ).ready(function() {
+
+                $(".submit").on("click", function(){
+                    let newRes = {};
+                    newRes.name = $("#reserve_name").val();
+                    newRes.phone = $("#reserve_phone").val();
+                    newRes.email = $("#reserve_email").val();
+                    newRes.unique_id = $("#reserve_unique_id").val();
+
+                     
+                $.post("/api/tables", newRes)
+                .then(function(data) {
+                 alert(data.reserversationadded);
+                });
+        
+        });
+    });
+              
+              </script>
+        </body>
+        </html>
