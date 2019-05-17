@@ -58,18 +58,23 @@
       <script>
 
             $( document ).ready(function() {
-
-                $(".submit").on("click", function(){
+               
+                $(".submit").on("click", function(event){
+                    event.preventDefault();
                     let newRes = {};
-                    newRes.name = $("#reserve_name").val();
-                    newRes.phone = $("#reserve_phone").val();
-                    newRes.email = $("#reserve_email").val();
-                    newRes.unique_id = $("#reserve_unique_id").val();
+                    newRes.name = $("#reserve-name").val();
+                    newRes.phone = $("#reserve-phone").val();
+                    newRes.email = $("#reserve-email").val();
+                    newRes.unique_id = $("#reserve-unique-id").val();
 
                      
                 $.post("/api/tables", newRes)
                 .then(function(data) {
-                 alert(data.reserversationadded);
+                   if (data.reservationAdded){
+                    alert("Congrats, reservation received");
+                   } else {
+                    alert("Sorry, added to waitlist at position: " + data.waitListNumber);
+                   }
                 });
         
         });

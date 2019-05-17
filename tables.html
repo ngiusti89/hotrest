@@ -1,77 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Tables</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <title>Tables</title>
 </head>
+
 <body>
-        <div class="jumbotron jumbotron-fluid">
-                <div class="container">
-                  <h1 class="display-4">Tables</h1>
-                  <p class="lead">Here is a list of tables already resereved:</p>
-                </div>
-                <div class="container">
-                        <div class="card">
-                                <div class="card-header" style="font-size: 1.5em;">
-                                  Tables
-                                  <!-- Card Header -->
-                                </div>
-                                
-                                <div class="card-body">
-                                        <div class="card-header" id="table1" style="font-size: 1.5em;">
-                                                Tables #1
-                                                <!-- Card Header -->
-                                              </div>
-                                              
-                                              <div class="card-body">
-                                                
-                                                
-                                              </div>
-                                        <div class="card-header" id="table2" style="font-size: 1.5em;">
-                                                Tables #2
-                                                <!-- Card Header -->
-                                              </div>
-                                              
-                                              <div class="card-body">
-                                                
-                                                
-                                              </div>
-                                        <div class="card-header" id="table3" style="font-size: 1.5em;">
-                                                Tables #3
-                                                <!-- Card Header -->
-                                              </div>
-                                              
-                                              <div class="card-body">
-                                                
-                                                
-                                              </div>
-                                        <div class="card-header" id="table4" style="font-size: 1.5em;">
-                                                Tables #4
-                                                <!-- Card Header -->
-                                              </div>
-                                              
-                                              <div class="card-body">
-                                                
-                                                
-                                              </div>
-                                  
-                                        <div class="card-header" id="table5" style="font-size: 1.5em;">
-                                                Tables #5   
-                                                <!-- Card Header -->
-                                              </div>
-                                              
-                                              <div class="card-body">
-                                                
-                                                
-                                              </div>
-                                  
-                                </div>
-                              </div> 
-                </div>
-              </div>
-    
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4">Tables</h1>
+      <p class="lead">Here is a list of tables already resereved:</p>
+    </div>
+    <div class="container">
+      <div class="card">
+        <div class="card-header" style="font-size: 1.5em;">
+          Tables
+          <!-- Card Header -->
+        </div>
+
+        <div class="card-body">
+          <div class="card-header" style="font-size: 1.5em;">
+            Tables #1
+            <!-- Card Header -->
+          </div>
+
+          <div class="card-body" id="table0">
+
+
+          </div>
+          <div class="card-header" style="font-size: 1.5em;">
+            Tables #2
+            <!-- Card Header -->
+          </div>
+
+          <div class="card-body" id="table1">
+
+
+          </div>
+          <div class="card-header" style="font-size: 1.5em;">
+            Tables #3
+            <!-- Card Header -->
+          </div>
+
+          <div class="card-body">
+            <div id="table2"></div>
+
+          </div>
+          <div class="card-header" style="font-size: 1.5em;">
+            Tables #4
+            <!-- Card Header -->
+          </div>
+
+          <div class="card-body" id="table4">
+
+
+          </div>
+
+          <div class="card-header" style="font-size: 1.5em;">
+            Tables #5
+            <!-- Card Header -->
+          </div>
+
+          <div class="card-body">
+            <p id="table5"></p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+
+    $.get("/api/tables", function (data) {
+      console.log(data);
+      for (var i = 0; i < data.length; i++) {
+        console.log("its doing stuff");
+        let obj = data[i];
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const element = obj[key];
+            console.log(key + " " + element);
+            var newText = $("<p>")
+            newText.text(key + ": " + element)
+            
+            $(`#table${i}`).append(newText)
+          }
+        }
+      }
+    });
+  </script>
+
 </body>
+
 </html>
