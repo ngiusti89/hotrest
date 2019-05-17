@@ -36,49 +36,49 @@ var tables = [
 ];
 
 var waiting = [
-    {
-      id: "235",
-      name: "Fred",
-      email: "fred@aol.com",
-      phone: "900-352-3534",
-    },
-    {
-      id: "236",
-      name: "Wilma",
-      email: "wilma@aol.com",
-      phone: "200-335-3858",
-    },
-    {
-      id: "237",
-      name: "Lucille Ball",
-      email: "lucilleball@aol.com",
-      phone: "553-463-2467",
-    }
-  ];
+  {
+    id: "235",
+    name: "Fred",
+    email: "fred@aol.com",
+    phone: "900-352-3534",
+  },
+  {
+    id: "236",
+    name: "Wilma",
+    email: "wilma@aol.com",
+    phone: "200-335-3858",
+  },
+  {
+    id: "237",
+    name: "Lucille Ball",
+    email: "lucilleball@aol.com",
+    phone: "553-463-2467",
+  }
+];
 
 // Routes
 // =============================================================
 
 // Basic route that sends the user first to the AJAX Page
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "home.html"));
 });
 
-app.get("/reserve", function(req, res) {
+app.get("/reserve", function (req, res) {
   res.sendFile(path.join(__dirname, "reserve.html"));
 });
 
-app.get("/tables", function(req, res) {
+app.get("/tables", function (req, res) {
   res.sendFile(path.join(__dirname, "tables.html"));
 });
 
 // Displays all tables
-app.get("/api/tables", function(req, res) {
+app.get("/api/tables", function (req, res) {
   return res.json(tables);
 });
 
 // Displays a single table, or returns false
-app.get("/api/tables/:table", function(req, res) {
+app.get("/api/tables/:table", function (req, res) {
   var chosen = req.params.table;
 
   console.log(chosen);
@@ -94,13 +94,13 @@ app.get("/api/tables/:table", function(req, res) {
 
 
 // Displays all waiting tables
-app.get("/api/waiting", function(req, res) {
+app.get("/api/waiting", function (req, res) {
   return res.json(waiting);
 });
 
 
 // Displays a single waiting table, or returns false
-app.get("/api/waiting/:waiting", function(req, res) {
+app.get("/api/waiting/:waiting", function (req, res) {
   var chosen = req.params.waiting;
 
   console.log(chosen);
@@ -115,7 +115,7 @@ app.get("/api/waiting/:waiting", function(req, res) {
 });
 
 // Create New Tables - takes in JSON input
-app.post("/api/tables", function(req, res) {
+app.post("/api/tables", function (req, res) {
   // req.body hosts is equal to the JSON post sent from the user
   // This works because of our body parsing middleware
   var newtable = req.body;
@@ -125,19 +125,28 @@ app.post("/api/tables", function(req, res) {
   newtable.routeName = newtable.name.replace(/\s+/g, "").toLowerCase();
 
   console.log(newtable);
+  
+  var moreInfo = {
+    waitListNumber: 0,
+    reservationAdded: false,
+  }
 
   // IF TABLES ARE AT MAX (5)
   if (tables.length === 4) {
-      // PUSH TO WAITING
-      waiting.push(newtable);
+    // PUSH TO WAITING
+    waiting.push(newtable);
+    moreInfo.waitListNumber = waiting.length - 1;
+    moreInfo.reservationAdded = false;
   } else {
-      tables.push(newtable);
+    tables.push(newtable);
+    moreInfo.reservationAdded = true;
   }
-  res.json(newtable);
+  res.json(moreInfo);
+
 });
 
 // Starts the server to begin listening
 // =============================================================
-app.listen(PORT, function() {
+app.listen(PORT, function () {
   console.log("App listening on PORT " + PORT);
 });
