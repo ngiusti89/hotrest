@@ -92,6 +92,28 @@ app.get("/api/tables/:table", function(req, res) {
   return res.json(false);
 });
 
+
+// Displays all waiting tables
+app.get("/api/waiting", function(req, res) {
+  return res.json(waiting);
+});
+
+
+// Displays a single waiting table, or returns false
+app.get("/api/waiting/:waiting", function(req, res) {
+  var chosen = req.params.waiting;
+
+  console.log(chosen);
+
+  for (var i = 0; i < waiting.length; i++) {
+    if (chosen === waiting[i].routeName) {
+      return res.json(waiting[i]);
+    }
+  }
+
+  return res.json(false);
+});
+
 // Create New Tables - takes in JSON input
 app.post("/api/tables", function(req, res) {
   // req.body hosts is equal to the JSON post sent from the user
@@ -104,8 +126,13 @@ app.post("/api/tables", function(req, res) {
 
   console.log(newtable);
 
-  tables.push(newtable);
-
+  // IF TABLES ARE AT MAX (5)
+  if (tables.length === 4) {
+      // PUSH TO WAITING
+      waiting.push(newtable);
+  } else {
+      tables.push(newtable);
+  }
   res.json(newtable);
 });
 
