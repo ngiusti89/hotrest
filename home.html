@@ -15,11 +15,11 @@
         <h1>    <span class="fa fa-fire"></span> Hot Restaurant - It's on fire...</h1>
           <hr>
           <br>
-          <h3>We only have <span id="numTables">5</span> tables! Book now before they burn up.</h3>
+          <h3><span id="numTables"></span> tables! Book now before they burn up.</h3>
             <br>
-    <a href="/tables.html"><button class="btn btn-primary btn-lg"><span class="fa fa-list"></span> View All Tables</button></a>
+    <a href="./tables"><button class="btn btn-primary btn-lg"><span class="fa fa-list"></span> View All Tables</button></a>
 
-    <a href="/reserve.html"><button class="btn btn-danger btn-lg"><span class="fa fa-vcard"></span> Reserve Now!</button></a>
+    <a href="./reserve"><button class="btn btn-danger btn-lg"><span class="fa fa-vcard"></span> Reserve Now!</button></a>
 
         </div>
         <div class="row">
@@ -32,7 +32,23 @@
         </div>
       </div>
       <script>
-      
+
+    $( document ).ready(function() {
+let maxTables = 5;
+
+        $.get("/api/tables")
+        .then(function(data) {
+         let numOcc = data.length;
+         let resTables = maxTables - numOcc;
+         if (resTables === 0){
+            $("#numTables").text("No free tables - get on the waitlist now!")
+         } else {
+            $("#numTables").text(`Hurry, only ${resTables} tables left!`)
+         }
+        });
+
+});
+     
       
       </script>
 </body>
