@@ -6,7 +6,7 @@ var path = require("path");
 // Sets up the Express App
 // =============================================================
 var app = express();
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -36,24 +36,7 @@ var tables = [
 ];
 
 var waiting = [
-  {
-    id: "235",
-    name: "Fred",
-    email: "fred@aol.com",
-    phone: "900-352-3534",
-  },
-  {
-    id: "236",
-    name: "Wilma",
-    email: "wilma@aol.com",
-    phone: "200-335-3858",
-  },
-  {
-    id: "237",
-    name: "Lucille Ball",
-    email: "lucilleball@aol.com",
-    phone: "553-463-2467",
-  }
+ 
 ];
 
 // Routes
@@ -132,10 +115,10 @@ app.post("/api/tables", function (req, res) {
   }
 
   // IF TABLES ARE AT MAX (5)
-  if (tables.length === 4) {
+  if (tables.length === 5) {
     // PUSH TO WAITING
     waiting.push(newtable);
-    moreInfo.waitListNumber = waiting.length - 1;
+    moreInfo.waitListNumber = waiting.length;
     moreInfo.reservationAdded = false;
   } else {
     tables.push(newtable);
