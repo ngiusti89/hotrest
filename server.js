@@ -12,79 +12,97 @@ var PORT = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Star Wars Characters (DATA)
+// Tables (DATA)
 // =============================================================
-var characters = [
+var tables = [
   {
-    routeName: "yoda",
+    id: "yoda",
     name: "Yoda",
-    role: "Jedi Master",
-    age: 900,
-    forcePoints: 2000
+    email: "jedimaster@aol.com",
+    phone: "900-352-3534",
   },
   {
-    routeName: "darthmaul",
+    id: "darthmaul",
     name: "Darth Maul",
-    role: "Sith Lord",
-    age: 200,
-    forcePoints: 1200
+    email: "sithlord@aol.com",
+    phone: "200-335-3858",
   },
   {
-    routeName: "obiwankenobi",
+    id: "obiwankenobi",
     name: "Obi Wan Kenobi",
-    role: "Jedi Master",
-    age: 55,
-    forcePoints: 1350
+    email: "jedimaster@aol.com",
+    phone: "553-463-2467",
   }
 ];
+
+var waiting = [
+    {
+      id: "235",
+      name: "Fred",
+      email: "fred@aol.com",
+      phone: "900-352-3534",
+    },
+    {
+      id: "236",
+      name: "Wilma",
+      email: "wilma@aol.com",
+      phone: "200-335-3858",
+    },
+    {
+      id: "237",
+      name: "Lucille Ball",
+      email: "lucilleball@aol.com",
+      phone: "553-463-2467",
+    }
+  ];
 
 // Routes
 // =============================================================
 
 // Basic route that sends the user first to the AJAX Page
 app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "view.html"));
+  res.sendFile(path.join(__dirname, "home.html"));
 });
 
-app.get("/add", function(req, res) {
-  res.sendFile(path.join(__dirname, "add.html"));
+app.get("/reserve", function(req, res) {
+  res.sendFile(path.join(__dirname, "reserve.html"));
 });
 
-// Displays all characters
-app.get("/api/characters", function(req, res) {
-  return res.json(characters);
+// Displays all tables
+app.get("/api/tables", function(req, res) {
+  return res.json(tables);
 });
 
-// Displays a single character, or returns false
-app.get("/api/characters/:character", function(req, res) {
-  var chosen = req.params.character;
+// Displays a single table, or returns false
+app.get("/api/tables/:table", function(req, res) {
+  var chosen = req.params.table;
 
   console.log(chosen);
 
-  for (var i = 0; i < characters.length; i++) {
-    if (chosen === characters[i].routeName) {
-      return res.json(characters[i]);
+  for (var i = 0; i < tables.length; i++) {
+    if (chosen === tables[i].routeName) {
+      return res.json(tables[i]);
     }
   }
 
   return res.json(false);
 });
 
-// Create New Characters - takes in JSON input
-app.post("/api/characters", function(req, res) {
+// Create New Tables - takes in JSON input
+app.post("/api/tables", function(req, res) {
   // req.body hosts is equal to the JSON post sent from the user
   // This works because of our body parsing middleware
-  var newcharacter = req.body;
+  var newtable = req.body;
 
-  // Using a RegEx Pattern to remove spaces from newCharacter
+  // Using a RegEx Pattern to remove spaces from newTable
   // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-  newcharacter.routeName = newcharacter.name.replace(/\s+/g, "").toLowerCase();
+  newtable.routeName = newtable.name.replace(/\s+/g, "").toLowerCase();
 
-  console.log(newcharacter);
+  console.log(newtable);
 
-  characters.push(newcharacter);
+  tables.push(newtable);
 
-  res.json(newcharacter);
+  res.json(newtable);
 });
 
 // Starts the server to begin listening
